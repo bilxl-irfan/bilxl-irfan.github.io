@@ -1,0 +1,449 @@
+/* ============= IMPORTS ============= */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Orbitron:wght@400;700;900&display=swap');
+
+/* ============= VARIABLES ============= */
+:root {
+    --terminal-bg: rgba(10, 10, 15, 0.95);
+    --terminal-text: #00ff41;
+    --terminal-prompt: #00bfff;
+    --terminal-error: #ff5555;
+    --terminal-warning: #ffff00;
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --matrix-green: #00ff41;
+    --neon-blue: #00bfff;
+    --cyber-purple: #bd00ff;
+}
+
+/* ============= RESET ============= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'JetBrains Mono', monospace;
+    background: #000;
+    color: var(--terminal-text);
+    overflow: hidden;
+    height: 100vh;
+}
+
+/* ============= MATRIX BACKGROUND ============= */
+#matrix-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 0.3;
+}
+
+/* ============= TERMINAL CONTAINER ============= */
+.terminal-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 1000px;
+    height: 80vh;
+    max-height: 700px;
+    background: var(--terminal-bg);
+    border-radius: 12px;
+    box-shadow: 
+        0 0 50px rgba(0, 255, 65, 0.3),
+        0 0 100px rgba(0, 191, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    overflow: hidden;
+    animation: terminalGlow 3s ease-in-out infinite alternate;
+    z-index: 100;  /* ADD THIS LINE - terminal on top when visible */
+}
+
+
+@keyframes terminalGlow {
+    0% {
+        box-shadow: 
+            0 0 50px rgba(0, 255, 65, 0.3),
+            0 0 100px rgba(0, 191, 255, 0.2);
+    }
+    100% {
+        box-shadow: 
+            0 0 70px rgba(0, 255, 65, 0.5),
+            0 0 120px rgba(0, 191, 255, 0.3);
+    }
+}
+
+/* ============= TERMINAL HEADER ============= */
+.terminal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    background: rgba(0, 0, 0, 0.5);
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.terminal-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.terminal-buttons span {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-close {
+    background: #ff5555;
+    box-shadow: 0 0 10px #ff5555;
+}
+
+.btn-minimize {
+    background: #ffff00;
+    box-shadow: 0 0 10px #ffff00;
+}
+
+.btn-maximize {
+    background: #00ff41;
+    box-shadow: 0 0 10px #00ff41;
+}
+
+.terminal-buttons span:hover {
+    transform: scale(1.2);
+}
+
+.terminal-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 14px;
+    color: var(--terminal-prompt);
+    font-weight: 700;
+    text-shadow: 0 0 10px var(--neon-blue);
+}
+
+/* ============= TERMINAL BODY ============= */
+.terminal-body {
+    padding: 20px;
+    height: calc(100% - 50px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.terminal-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+.terminal-body::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.terminal-body::-webkit-scrollbar-thumb {
+    background: var(--terminal-text);
+    border-radius: 4px;
+}
+
+/* ============= ASCII ART ============= */
+.ascii-art {
+    color: var(--matrix-green);
+    font-size: 10px;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px var(--matrix-green);
+    animation: glitchArt 5s infinite;
+}
+
+@keyframes glitchArt {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-2px); }
+    40% { transform: translateX(2px); }
+    60% { transform: translateX(-2px); }
+    80% { transform: translateX(2px); }
+}
+
+/* ============= TERMINAL LINE ============= */
+.terminal-line {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+}
+
+.prompt {
+    color: var(--terminal-prompt);
+    margin-right: 8px;
+    font-weight: bold;
+    text-shadow: 0 0 5px var(--neon-blue);
+}
+
+.typed-text {
+    color: var(--terminal-text);
+}
+
+.cursor {
+    color: var(--terminal-text);
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+/* ============= TERMINAL INPUT ============= */
+.terminal-input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--terminal-text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    flex: 1;
+    caret-color: var(--terminal-text);
+}
+
+.input-line {
+    position: sticky;
+    bottom: 0;
+    background: var(--terminal-bg);
+    padding: 10px 0;
+}
+
+/* ============= OUTPUT STYLES ============= */
+#output .output-line {
+    margin: 8px 0;
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.success { color: var(--matrix-green); }
+.error { color: var(--terminal-error); }
+.warning { color: var(--terminal-warning); }
+.info { color: var(--neon-blue); }
+
+.section-title {
+    font-family: 'Orbitron', monospace;
+    color: var(--cyber-purple);
+    font-size: 18px;
+    margin: 15px 0 10px 0;
+    text-shadow: 0 0 10px var(--cyber-purple);
+    border-bottom: 2px solid var(--cyber-purple);
+    padding-bottom: 5px;
+}
+
+/* ============= HELP MENU ============= */
+.help-menu {
+    margin: 20px 0;
+    padding: 15px;
+    background: rgba(0, 191, 255, 0.1);
+    border: 1px solid var(--neon-blue);
+    border-radius: 8px;
+    animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(-20px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+.help-title {
+    font-size: 16px;
+    color: var(--neon-blue);
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.help-item {
+    margin: 8px 0;
+    padding-left: 10px;
+}
+
+.cmd {
+    color: var(--cyber-purple);
+    font-weight: bold;
+    text-shadow: 0 0 5px var(--cyber-purple);
+}
+
+.hidden {
+    display: none;
+}
+
+/* ============= GLASS CARDS ============= */
+.cards-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    padding: 40px;
+    width: 90%;
+    max-width: 1200px;
+    z-index: 10;  /* ADD THIS LINE - cards on top when visible */
+    opacity: 0;   /* ADD THIS LINE - start invisible */
+    pointer-events: none;  /* ADD THIS LINE - can't click when hidden */
+    transition: opacity 0.5s ease;  /* ADD THIS LINE - smooth fade */
+}
+
+/* When cards are NOT hidden (visible) */
+.cards-container:not(.hidden) {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(15px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 30px;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 32px rgba(0, 255, 65, 0.1);
+    cursor: pointer;
+}
+
+.glass-card:hover {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 
+        0 15px 50px rgba(0, 255, 65, 0.3),
+        0 0 30px rgba(0, 191, 255, 0.2);
+    border-color: var(--matrix-green);
+}
+
+.card-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    color: var(--matrix-green);
+    text-shadow: 0 0 20px var(--matrix-green);
+}
+
+.glass-card h3 {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: var(--neon-blue);
+    text-shadow: 0 0 10px var(--neon-blue);
+}
+
+.glass-card p {
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.6;
+}
+
+/* ============= FLOATING ACTION BUTTON ============= */
+.fab {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 2px solid var(--matrix-green);
+    color: var(--matrix-green);
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 0 30px rgba(0, 255, 65, 0.5);
+    transition: all 0.3s;
+    z-index: 1000;
+}
+
+.fab:hover {
+    transform: scale(1.1) rotate(180deg);
+    box-shadow: 0 0 50px rgba(0, 255, 65, 0.8);
+}
+
+/* ============= RESPONSIVE ============= */
+@media (max-width: 768px) {
+    .terminal-container {
+        width: 95%;
+        height: 90vh;
+    }
+
+    .ascii-art {
+        font-size: 6px;
+    }
+
+    .terminal-title {
+        font-size: 12px;
+    }
+
+    .cards-container {
+        grid-template-columns: 1fr;
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .terminal-body {
+        font-size: 12px;
+    }
+
+    .ascii-art {
+        display: none;
+    }
+}
+
+/* ============= RESUME BUTTON ============= */
+.resume-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 50px;              /* CHANGED: Fixed width */
+    height: 50px;             /* CHANGED: Fixed height */
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 2px solid var(--neon-blue);
+    border-radius: 50%;       /* CHANGED: Perfect circle */
+    color: var(--neon-blue);
+    text-decoration: none;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;  /* CHANGED: Center icon */
+    box-shadow: 0 0 20px rgba(0, 191, 255, 0.4);
+    transition: all 0.3s ease;
+    z-index: 1001;
+}
+
+.resume-btn:hover {
+    background: var(--neon-blue);
+    color: #000;
+    box-shadow: 0 0 40px rgba(0, 191, 255, 0.8);
+    transform: translateY(-2px) scale(1.1);
+}
+
+.resume-btn i {
+    font-size: 20px;
+}
+
+.resume-btn span {
+    display: none;  /* Hide text, show only icon */
+}
+
+@media (max-width: 768px) {
+    .resume-btn {
+        top: 15px;
+        right: 15px;
+        width: 45px;
+        height: 45px;
+    }
+    
+    .resume-btn i {
+        font-size: 18px;
+    }
+}

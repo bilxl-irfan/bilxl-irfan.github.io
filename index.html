@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terminal Portfolio | Bilal Irfan</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Matrix Rain Canvas Background -->
+    <canvas id="matrix-canvas"></canvas>
+
+    <!-- Terminal Container -->
+    <div class="terminal-container">
+        <!-- Terminal Header -->
+        <div class="terminal-header">
+            <div class="terminal-buttons">
+                <span class="btn-close"></span>
+                <span class="btn-minimize"></span>
+                <span class="btn-maximize"></span>
+            </div>
+            <div class="terminal-title">visitor@bilal-portfolio:~$</div>
+        </div>
+
+        <!-- Terminal Body -->
+        <div class="terminal-body" id="terminal">
+            <!-- Welcome ASCII Art -->
+            <pre class="ascii-art">
+ ██╗    ██╗███████╗██╗     ██████╗  ██████╗ ███╗   ███╗███████╗
+ ██║    ██║██╔════╝██║     ██╔════╝██╔═══██╗████╗ ████║██╔════╝
+ ██║ █╗ ██║█████╗  ██║     ██║     ██║   ██║██╔████╔██║█████╗  
+ ██║███╗██║██╔══╝  ██║     ██║     ██║   ██║██║╚██╔╝██║██╔══╝  
+ ╚███╔███╔╝███████╗███████╗╚██████╗╚██████╔╝██║ ╚═╝ ██║███████╗
+  ╚══╝╚══╝ ╚══════╝╚══════╝ ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝
+            </pre>
+            <!-- Typed Intro -->
+            <div class="terminal-line">
+                <span class="prompt">visitor@bilal-portfolio:~$</span>
+                <span id="typed-text" class="typed-text"></span>
+                <span class="cursor">|</span>
+            </div>
+
+            <!-- Output Lines -->
+            <div id="output"></div>
+
+            <!-- Command History -->
+            <div id="command-history"></div>
+
+            <!-- Input Line -->
+            <div class="terminal-line input-line">
+                <span class="prompt">visitor@bilal-portfolio:~$</span>
+                <input type="text" id="terminal-input" class="terminal-input" autofocus autocomplete="off" spellcheck="false">
+            </div>
+
+            <!-- Help Menu (Initially Hidden) -->
+            <div id="help-menu" class="help-menu hidden">
+                <div class="help-title">📌 Available Commands:</div>
+                <div class="help-commands">
+                    <div class="help-item"><span class="cmd">about</span> - Learn about me</div>
+                    <div class="help-item"><span class="cmd">skills</span> - View my technical skills</div>
+                    <div class="help-item"><span class="cmd">projects</span> - Check out my projects</div>
+                    <div class="help-item"><span class="cmd">education</span> - See my education background</div>
+                    <div class="help-item"><span class="cmd">contact</span> - Get in touch with me</div>
+                    <div class="help-item"><span class="cmd">github</span> - Visit my GitHub profile</div>
+                    <div class="help-item"><span class="cmd">linkedin</span> - Connect on LinkedIn</div>
+                    <div class="help-item"><span class="cmd">resume</span> - Download my resume</div>
+                    <div class="help-item"><span class="cmd">clear</span> - Clear the terminal</div>
+                    <div class="help-item"><span class="cmd">matrix</span> - Toggle matrix rain effect</div>
+                    <div class="help-item"><span class="cmd">help</span> - Show this menu</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Glass Cards for Mobile/Visual Display -->
+    <div class="cards-container hidden" id="cards-container">
+        <!-- About Card -->
+        <div class="glass-card" data-tilt>
+            <div class="card-icon"><i class="fas fa-user-circle"></i></div>
+            <h3>About Me</h3>
+            <p>Computer Engineering student passionate about embedded systems and digital design.</p>
+        </div>
+
+        <!-- Skills Card -->
+        <div class="glass-card" data-tilt>
+            <div class="card-icon"><i class="fas fa-code"></i></div>
+            <h3>Skills</h3>
+            <p>Java • C/C++ • VHDL • Python • JavaScript • MATLAB • Assembly Language</p>
+        </div>
+
+        <!-- Projects Card -->
+        <div class="glass-card" data-tilt>
+            <div class="card-icon"><i class="fas fa-laptop-code"></i></div>
+            <h3>Projects</h3>
+            <p>Banking App • Cache Controller • Rivet (News App) • Arduino Fight Bot • General Purpose Processor • More to come</p>
+        </div>
+    </div>
+
+    <!-- Floating Action Button - Toggle View -->
+    <button class="fab" id="toggle-view" title="Toggle View">
+        <i class="fas fa-exchange-alt"></i>
+    </button>
+
+    <!-- Resume Download Button (Top Right) -->
+    <a href="docs/resume.pdf" download="Bilal_Irfan_Resume.pdf" class="resume-btn" title="Download Resume">
+        <i class="fas fa-file-download"></i>
+        <span>Resume</span>
+    </a>
+
+    <script src="script.js"></script>
+</body>
+</html>
